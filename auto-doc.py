@@ -9,7 +9,7 @@ import datetime
 import pandas as pd
 
 #import docx template
-
+    
 template = DocxTemplate ('template-auto.docx')
 
 #read csv
@@ -27,7 +27,8 @@ context = {
     'Company_umbrella': 'Frauenhofer',
     'Company': 'IKS',
     'Location': 'Darmstadt',
-    'job': 'Werkstudentenstell'
+    'job': 'Werkstudentenstell',
+    'type': 'Werkstudentstelle'
     #'type1':None,
     #'type2':None
 }
@@ -39,15 +40,20 @@ for i in range(len(data)):
     context['Company'] = data.loc[i,'Company']
     context['Location'] = data.loc[i,'Location']
     context['job'] = data.loc[i,'job']
-
-
-
-
-
+    context['type'] = data.loc[i,'type']
     #render report
-    template.render(context)
+    
+    #set template
+    template = DocxTemplate ('template-auto.docx')
+    
+    #render doc
+    
+    template.render(context, autoescape=True)
+    
+    #save doc
+
     company_umbrella = context['Company_umbrella']
     name= context['name']
-    savefile = f'{ company_umbrella }_{ name }'
-    print(savefile)
+    savefile = f'ACM_Anschreiben_{name}'
+    
     template.save(savefile+'.docx')
