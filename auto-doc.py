@@ -4,17 +4,23 @@ from docx.shared import Cm
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Cm, Inches, Mm, Emu
 import datetime
-
+import os
 #import pandas to read csv
 import pandas as pd
+#import convert to pdf
+from docx2pdf import convert
 
 #import docx template
     
-template = DocxTemplate ('template-auto.docx')
+#template = DocxTemplate ('lorem-template.docx')
+
+#current directory
+cwd = os.getcwd()
+
 
 #read csv
 
-data = pd.read_csv('template-data.csv')
+data = pd.read_csv('lorem-data.csv')
 
 #declare template variables in a dict
 #filled with placeholders
@@ -44,7 +50,7 @@ for i in range(len(data)):
     #render report
     
     #set template
-    template = DocxTemplate ('template-auto.docx')
+    template = DocxTemplate ('lorem-template.docx')
     
     #render doc
     
@@ -54,6 +60,10 @@ for i in range(len(data)):
 
     company_umbrella = context['Company_umbrella']
     name= context['name']
-    savefile = f'ACM_Anschreiben_{name}'
+    savefile = f'Example_Generated_{name}'
     
-    template.save(savefile+'.docx')
+    template.save(cwd+'/generated/'+savefile+'.docx')
+
+#convert rendered docx to pdf
+
+convert(cwd+'/generated/', cwd+'/generted2pdf')
