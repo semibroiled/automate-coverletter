@@ -34,11 +34,11 @@ context = {
 for i in range(len(data)):
 
     #update context with info rows from data
-    context['name'] = data[i,'name']
-    context['Company_umbrella'] = data[i,'Company_umbrella']
-    context['Company'] = data[i,'Company']
-    context['Location'] = data[i,'Location']
-    context['job'] = data[i,'job']
+    context['name'] = data.loc[i,'name']
+    context['Company_umbrella'] = data.loc[i,'Company_umbrella']
+    context['Company'] = data.loc[i,'Company']
+    context['Location'] = data.loc[i,'Location']
+    context['job'] = data.loc[i,'job']
 
 
 
