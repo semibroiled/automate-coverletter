@@ -8,7 +8,7 @@ import os
 #import pandas to read csv
 import pandas as pd
 #import convert to pdf
-from docx2pdf import convert
+#from docx2pdf import convert
 
 #import docx template
     
@@ -20,7 +20,7 @@ cwd = os.getcwd()
 
 #read csv
 
-data = pd.read_csv('lorem-data.csv')
+data = pd.read_csv('template-cl.csv')
 
 #declare template variables in a dict
 #filled with placeholders
@@ -34,7 +34,9 @@ context = {
     'Company': 'IKS',
     'Location': 'Darmstadt',
     'job': 'Werkstudentenstell',
-    'type': 'Werkstudentstelle'
+    'type': 'Werkstudentstelle',
+    'subject': 'Bewerbung',
+    'start':'sofort'
     #'type1':None,
     #'type2':None
 }
@@ -47,10 +49,12 @@ for i in range(len(data)):
     context['Location'] = data.loc[i,'Location']
     context['job'] = data.loc[i,'job']
     context['type'] = data.loc[i,'type']
+    context['subject'] = data.loc[i,'subject']
+    context['start'] = data.loc[i,'start']
     #render report
     
     #set template
-    template = DocxTemplate ('lorem-template.docx')
+    template = DocxTemplate ('template-cl.docx')
     
     #render doc
     
@@ -60,10 +64,10 @@ for i in range(len(data)):
 
     company_umbrella = context['Company_umbrella']
     name= context['name']
-    savefile = f'Example_Generated_{name}'
+    savefile = f'Example_Generated_{name}_{i}'
     
     template.save(cwd+'/generated/'+savefile+'.docx')
 
 #convert rendered docx to pdf
 
-convert(cwd+'/generated/', cwd+'/generted2pdf')
+#convert(cwd+'/generated/', cwd+'/generted2pdf')
