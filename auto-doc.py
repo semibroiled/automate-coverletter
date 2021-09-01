@@ -21,7 +21,9 @@ cwd = os.getcwd()
 
 print(f'Reading list...')
 #Read CSV
-data = pd.read_csv('template-cl.csv')
+path = cwd+'/'
+filename = 'template-cl.csv'
+data = pd.read_csv(path+filename)
 
 #Declare template variables in a dict
 #filled with placeholders
@@ -42,7 +44,7 @@ context = {
     #'type2':None
 }
 
-print(f'Running loop...')
+print(f'Running loop over {filename}...')
 #Run loop over List from CSV
 for i in range(len(data)):
     
@@ -57,12 +59,12 @@ for i in range(len(data)):
     context['subject'] = data.loc[i,'subject']
     context['start'] = data.loc[i,'start']
     
-    print(f'Importing template...')
+    print('Importing template...')
     #set template
     template = DocxTemplate ('template.docx')
     
     print(f'Populating document...')
-    #Render doc
+    #Render document
     template.render(context, autoescape=True)
     
     print(f'Saving file...')
