@@ -1,28 +1,31 @@
 
-#Import relevant packages
+#Import Relevant Packages
+
 from docx.shared import Cm
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Cm, Inches, Mm, Emu
 import datetime
 import os
-#import pandas to read csv
+
+#Import pandas to read CSV file
 import pandas as pd
+
 #import convert to pdf
 #from docx2pdf import convert
 
 #import docx template
-    
 #template = DocxTemplate ('lorem-template.docx')
 
-#current directory
+#Current Directory
 cwd = os.getcwd()
 
+print(f'Reading list...')
+#Read CSV
+path = cwd+'/'
+filename = 'template-cl.csv'
+data = pd.read_csv(path+filename)
 
-#read csv
-
-data = pd.read_csv('template-cl.csv')
-
-#declare template variables in a dict
+#Declare template variables in a dict
 #filled with placeholders
 context = {
     'day': datetime.datetime.now().strftime('%d'),
@@ -40,9 +43,13 @@ context = {
     #'type1':None,
     #'type2':None
 }
-for i in range(len(data)):
 
-    #update context with info rows from data
+print(f'Running loop over {filename}...')
+#Run loop over List from CSV
+for i in range(len(data)):
+    
+    print(f'Generating context...')
+    #Update context with information from datafile
     context['name'] = data.loc[i,'name']
     context['Company_umbrella'] = data.loc[i,'Company_umbrella']
     context['Company'] = data.loc[i,'Company']
@@ -51,22 +58,23 @@ for i in range(len(data)):
     context['type'] = data.loc[i,'type']
     context['subject'] = data.loc[i,'subject']
     context['start'] = data.loc[i,'start']
-    #render report
     
+    print('Importing template...')
     #set template
-    template = DocxTemplate ('template-cl.docx')
+    template = DocxTemplate ('template.docx')
     
-    #render doc
-    
+    print(f'Populating document...')
+    #Render document
     template.render(context, autoescape=True)
     
+    print(f'Saving file...')
     #save doc
-
     company_umbrella = context['Company_umbrella']
     name= context['name']
-    savefile = f'Example_Generated_{name}_{i}'
+    savefile = f'{i}_ACM_Anschreiben_{name}'
     
     template.save(cwd+'/generated/'+savefile+'.docx')
+    print(f'{savefile} rendered!')
 
 #convert rendered docx to pdf
 
